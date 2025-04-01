@@ -18,6 +18,7 @@ pub enum TokenType {
     Integer,
     String,
     Delimiter,
+    Operator,
     Exit,
     Newline,
 }

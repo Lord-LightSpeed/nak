@@ -52,6 +52,9 @@ impl Tokenizer {
                 }
                 i += 1;
                 current_token_type = TokenType::String;
+            } else if c == '+' || c == '-' || c == '*' || c == '/' {
+                current_token_value.push(c);
+                current_token_type = TokenType::Operator;
             }
             let current_token = Token {
                 token_type: current_token_type,
