@@ -37,7 +37,7 @@ impl TokenParser {
             }
             self.i += 2;
         } else {
-            println!(
+            eprintln!(
                 "Error on token: {:?} invalid use of \"exit\" keyword.",
                 self.i
             );

@@ -60,7 +60,7 @@ impl Tokenizer {
                 token_type: current_token_type,
                 value: current_token_value,
             };
-            if current_token.value.len() > 0 {
+            if !current_token.value.is_empty() {
                 println!("{:?}", current_token);
                 self.tokens.push(current_token);
             }

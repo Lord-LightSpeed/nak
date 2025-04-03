@@ -3,14 +3,7 @@ pub struct Token {
     pub token_type: TokenType,
     pub value: String,
 }
-impl Token {
-    pub fn new() -> Token {
-        Token {
-            token_type: TokenType::Identifier,
-            value: String::from(""),
-        }
-    }
-}
+impl Token {}
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum TokenType {

@@ -2,22 +2,23 @@ mod token;
 mod token_parse;
 mod tokenizer;
 
-use std::{
-    env, fs,
-    fs::File,
-    io::Write,
-    process::{Command, Output},
-};
+use std::{env, fs, io::Write, process::Command};
 use token::Token;
 use token_parse::TokenParser;
 use tokenizer::Tokenizer;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
+    if args.len() < 2 {
         eprintln!("Invalid number of arguments.");
-        eprintln!("Usage: {} <input_file>", args[0]);
+        eprintln!("Usage: {} [options] <input_file>", args[0]);
+        eprintln!("For more information, use: {} -h", args[0]);
         std::process::exit(1);
+    }
+    match args[1].as_str() {
+        "-h" => print_help(&args[0]),
+        "--help" => print_help(&args[0]),
+        _ => {}
     }
     let input_file: &String = &args[1];
     println!("{input_file}");
@@ -49,4 +50,11 @@ fn lexical_parse_first_pass(input: String) -> Vec<Token> {
 fn lexical_parse_second_pass(input: Vec<Token>) -> String {
     let token_parse = TokenParser::new(input);
     token_parse.parse()
+}
+
+fn print_help(file_path: &String) {
+    println!("Usage: {} [options] <input_file>", file_path);
+    println!("Options:");
+    println!("  -h, --help       Show this message");
+    std::process::exit(0);
 }
