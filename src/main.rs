@@ -15,10 +15,15 @@ fn main() {
         eprintln!("For more information, use: {} -h", args[0]);
         std::process::exit(1);
     }
-    match args[1].as_str() {
-        "-h" => print_help(&args[0]),
-        "--help" => print_help(&args[0]),
-        _ => {}
+    let mut i: usize = 1;
+    while i < args.len() {
+        match args[1].as_str() {
+            "-h" => print_help(&args[0]),
+            "--help" => print_help(&args[0]),
+            "-o" => todo!(),
+            _ => {}
+        }
+        i += 1;
     }
     let input_file: &String = &args[1];
     println!("{input_file}");
@@ -55,6 +60,7 @@ fn lexical_parse_second_pass(input: Vec<Token>) -> String {
 fn print_help(file_path: &String) {
     println!("Usage: {} [options] <input_file>", file_path);
     println!("Options:");
-    println!("  -h, --help       Show this message");
+    println!("  -h, --help                 Show this message");
+    println!("  -o <output_file_name>      Use a specified file name for output");
     std::process::exit(0);
 }
