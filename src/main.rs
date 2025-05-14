@@ -15,17 +15,25 @@ fn main() {
         eprintln!("For more information, use: {} -h", args[0]);
         std::process::exit(1);
     }
+    let mut output_file_name = "output";
     let mut i: usize = 1;
     while i < args.len() {
-        match args[1].as_str() {
+        match args[i].as_str() {
             "-h" => print_help(&args[0]),
             "--help" => print_help(&args[0]),
-            "-o" => todo!(),
+            "-o" => {
+                i += 1;
+                if i == (args.len() - 1) {
+                    eprintln!("Too few arguments given for option: -o");
+                    std::process::exit(1);
+                }
+                output_file_name = &args[i]
+            }
             _ => {}
         }
         i += 1;
     }
-    let input_file: &String = &args[1];
+    let input_file: &String = &args[args.len() - 1];
     println!("{input_file}");
     let contents = fs::read_to_string(input_file).expect("Error reading file.");
     println!("{contents}");
@@ -33,18 +41,18 @@ fn main() {
     println!("{:?}", initial_tokens);
     let output = lexical_parse_second_pass(initial_tokens);
     print!("{}", output);
-    let path = "output.asm";
+    let path = output_file_name.to_owned() + ".asm";
     let mut output_file = fs::File::create(path).expect("Failed to create output file.");
     write!(output_file, "{}", output).expect("Failed to write to output file.");
     Command::new("nasm")
         .arg("-felf64")
-        .arg("output.asm")
+        .arg(output_file_name.to_owned() + ".asm")
         .output()
         .expect("Failed to compile assembly code.");
     Command::new("ld")
         .arg("-o")
-        .arg("output")
-        .arg("output.o")
+        .arg(output_file_name)
+        .arg(output_file_name.to_owned() + ".o")
         .output()
         .expect("Failed to link object file.");
 }
