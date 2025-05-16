@@ -29,7 +29,7 @@ impl TokenParser {
     fn parse_exit(&mut self) {
         if self.i + 2 < self.input.len() {
             if self.input[self.i + 1].token_type == TokenType::Integer
-                && self.input[self.i + 2].token_type == TokenType::Delimiter
+            && self.input[self.i + 2].token_type == TokenType::Delimiter
             {
                 self.output.push_str("    mov rax, 60\n    mov rdi, ");
                 self.output.push_str(self.input[self.i + 1].value.as_str());
